@@ -80,7 +80,7 @@ function HealingForestDetail({ projectId }: HealingForestDetailProps) {
                 <img 
                   src={projectImages[selectedImage]} 
                   alt={`Healing Forest - Vista ${selectedImage + 1}`}
-                  className="w-full h-[70vh] object-cover transition-all duration-700 ease-out"
+                  className="w-full h-[70vh] object-contain transition-all duration-700 ease-out"
                   style={{
                     transform: 'perspective(1000px) rotateY(0deg) scale(1)',
                   }}
