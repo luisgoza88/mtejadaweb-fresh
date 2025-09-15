@@ -19,7 +19,7 @@ function App() {
       {/* Fullscreen Hero Section */}
       <section className="relative min-h-screen bg-cover bg-center bg-no-repeat" 
         style={{
-          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/intro-images/037-MSPH8612.jpg')`
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/intro-images/097-MSPH8735.jpg')`
         }}>
         
         {/* Navigation Overlay */}
