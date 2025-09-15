@@ -1,18 +1,95 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 
 function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const totalProjects = 5; // Total number of projects
-  const visibleProjects = 4; // Projects visible at once
-  const maxSlide = totalProjects - visibleProjects;
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+  const autoPlayRef = useRef(null);
+
+  // Projects data
+  const projects = [
+    {
+      id: 'belvedere',
+      title: 'Belvedere',
+      subtitle: 'Restaurante • Medellín',
+      image: 'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/BELVEDERE/0015-MSPH3815.JPG',
+      link: '/proyecto/belvedere'
+    },
+    {
+      id: 'healing-forest',
+      title: 'Healing Forest',
+      subtitle: 'Wellness • Envigado',
+      image: 'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/037-MSPH8826.jpg',
+      link: '/proyecto/healing-forest'
+    },
+    {
+      id: 'oficina-bio26',
+      title: 'Oficina BIO26 (en construcción)',
+      subtitle: 'Comercial • Medellín',
+      image: 'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/049-MSPH8638.jpg',
+      link: '/proyecto/oficina-bio26'
+    },
+    {
+      id: 'hotel-dos7',
+      title: 'Hotel DOS7 (en construcción)',
+      subtitle: 'Hotel • Envigado',
+      image: 'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HOTEL%20DOS7/Fachada%201%20Noche.png',
+      link: '/proyecto/hotel-dos7'
+    },
+    {
+      id: 'casa-alterra',
+      title: 'Casa Alterra (en construcción)',
+      subtitle: 'Residencial • Alto de las Palmas',
+      image: 'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/CASA%20ALTERRA/WhatsApp%20Image%202025-09-15%20at%2017.56.05.jpeg',
+      link: '/proyecto/casa-alterra'
+    }
+  ];
+
+  const totalProjects = projects.length;
+
+  // Auto-play functionality - moves slowly through all projects in a circle
+  useEffect(() => {
+    if (isAutoPlaying) {
+      autoPlayRef.current = setInterval(() => {
+        setCurrentSlide(prev => {
+          const nextSlide = prev + 1;
+          // When we reach the duplicate set, instantly reset to start without transition
+          if (nextSlide >= totalProjects) {
+            // Use setTimeout to reset without transition
+            setTimeout(() => {
+              setCurrentSlide(0);
+            }, 50);
+            return nextSlide;
+          }
+          return nextSlide;
+        });
+      }, 4000); // Change slide every 4 seconds for slow, smooth movement
+    } else {
+      clearInterval(autoPlayRef.current);
+    }
+
+    return () => clearInterval(autoPlayRef.current);
+  }, [isAutoPlaying, totalProjects]);
+
+  // Pause auto-play on manual interaction
+  const handleManualNavigation = (newSlide) => {
+    setIsAutoPlaying(false);
+    setCurrentSlide(newSlide % totalProjects);
+    
+    // Resume auto-play after 5 seconds of no interaction
+    setTimeout(() => {
+      setIsAutoPlaying(true);
+    }, 5000);
+  };
 
   const nextSlide = () => {
-    setCurrentSlide(prev => prev < maxSlide ? prev + 1 : 0);
+    const newSlide = (currentSlide + 1) % totalProjects;
+    handleManualNavigation(newSlide);
   };
 
   const prevSlide = () => {
-    setCurrentSlide(prev => prev > 0 ? prev - 1 : maxSlide);
+    const newSlide = currentSlide === 0 ? totalProjects - 1 : currentSlide - 1;
+    handleManualNavigation(newSlide);
   };
 
   return (
@@ -75,7 +152,7 @@ function HomePage() {
       </section>
 
       {/* Projects Section */}
-      <section className="py-16 bg-gray-50 overflow-hidden">
+      <section className="py-16 overflow-hidden" style={{ backgroundColor: '#F5F5F5' }}>
         <div className="max-w-full">
           <div className="px-4 md:px-8 mb-12">
             <h2 className="text-2xl md:text-3xl font-kanit font-medium tracking-wide text-black">
@@ -107,122 +184,93 @@ function HomePage() {
               </div>
             </div>
 
-            {/* Projects Carousel */}
+            {/* Projects Carousel - Infinite Loop */}
             <div 
-              className="flex transition-transform duration-700 ease-in-out px-4"
-              style={{ transform: `translateX(-${currentSlide * 25}%)` }}
+              className="flex transition-transform duration-1000 ease-out px-4"
+              style={{ 
+                transform: `translateX(-${currentSlide * (100 / totalProjects)}%)`,
+                width: `${(totalProjects * 2) * (100 / totalProjects)}%`
+              }}
             >
-              <Link to="/proyecto/belvedere" className="flex-none w-1/4 px-2">
-                <div className="group">
-                  <div className="relative overflow-hidden aspect-[3/4] bg-white">
-                    <img 
-                      src="https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/BELVEDERE/0015-MSPH3815.JPG"
-                      alt="Belvedere"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
+              {/* First set of projects */}
+              {projects.map((project, index) => (
+                <Link 
+                  key={`first-${project.id}`} 
+                  to={project.link} 
+                  className="flex-none px-2"
+                  style={{ width: `${100 / totalProjects}%` }}
+                >
+                  <div className="group">
+                    <div className="relative overflow-hidden aspect-[3/4] bg-white">
+                      <img 
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
+                    </div>
+                    <div className="pt-6">
+                      <h3 className="text-xl font-kanit font-medium tracking-wide mb-2 text-black">
+                        {project.title}
+                      </h3>
+                      <p className="text-base font-source-code text-gray-600">
+                        {project.subtitle}
+                      </p>
+                    </div>
                   </div>
-                  <div className="pt-6">
-                    <h3 className="text-xl font-kanit font-medium tracking-wide mb-2 text-black">
-                      Belvedere
-                    </h3>
-                    <p className="text-base font-source-code text-gray-600">
-                      Restaurante • Medellín
-                    </p>
+                </Link>
+              ))}
+              
+              {/* Duplicate set for infinite loop effect */}
+              {projects.map((project, index) => (
+                <Link 
+                  key={`second-${project.id}`} 
+                  to={project.link} 
+                  className="flex-none px-2"
+                  style={{ width: `${100 / totalProjects}%` }}
+                >
+                  <div className="group">
+                    <div className="relative overflow-hidden aspect-[3/4] bg-white">
+                      <img 
+                        src={project.image}
+                        alt={project.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
+                    </div>
+                    <div className="pt-6">
+                      <h3 className="text-xl font-kanit font-medium tracking-wide mb-2 text-black">
+                        {project.title}
+                      </h3>
+                      <p className="text-base font-source-code text-gray-600">
+                        {project.subtitle}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              </Link>
+                </Link>
+              ))}
+            </div>
 
-              <Link to="/proyecto/healing-forest" className="flex-none w-1/4 px-2">
-                <div className="group">
-                  <div className="relative overflow-hidden aspect-[3/4] bg-white">
-                    <img 
-                      src="https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/037-MSPH8826.jpg"
-                      alt="Healing Forest"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
-                  </div>
-                  <div className="pt-6">
-                    <h3 className="text-xl font-kanit font-medium tracking-wide mb-2 text-black">
-                      Healing Forest
-                    </h3>
-                    <p className="text-base font-source-code text-gray-600">
-                      Salud y Bienestar • Medellín
-                    </p>
-                  </div>
-                </div>
-              </Link>
-
-              <Link to="/proyecto/oficina-bio26" className="flex-none w-1/4 px-2">
-                <div className="group">
-                  <div className="relative overflow-hidden aspect-[3/4] bg-white">
-                    <img 
-                      src="https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/intro-images/049-MSPH8638.jpg"
-                      alt="Oficina BIO26"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
-                  </div>
-                  <div className="pt-6">
-                    <h3 className="text-xl font-kanit font-medium tracking-wide mb-2 text-black">
-                      Oficina BIO26
-                    </h3>
-                    <p className="text-base font-source-code text-gray-600">
-                      Comercial • Medellín
-                    </p>
-                  </div>
-                </div>
-              </Link>
-
-              <Link to="/proyecto/hotel-dos7" className="flex-none w-1/4 px-2">
-                <div className="group">
-                  <div className="relative overflow-hidden aspect-[3/4] bg-white">
-                    <img 
-                      src="https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HOTEL%20DOS7/Fachada%201%20Noche.png"
-                      alt="Hotel DOS7"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
-                  </div>
-                  <div className="pt-6">
-                    <h3 className="text-xl font-kanit font-medium tracking-wide mb-2 text-black">
-                      Hotel DOS7
-                    </h3>
-                    <p className="text-base font-source-code text-gray-600">
-                      Hotel • Envigado
-                    </p>
-                  </div>
-                </div>
-              </Link>
-
-              <Link to="/proyecto/casa-alterra" className="flex-none w-1/4 px-2">
-                <div className="group">
-                  <div className="relative overflow-hidden aspect-[3/4] bg-white">
-                    <img 
-                      src="https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/CASA%20ALTERRA/WhatsApp%20Image%202025-09-15%20at%2017.56.05.jpeg"
-                      alt="Casa Alterra"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
-                  </div>
-                  <div className="pt-6">
-                    <h3 className="text-xl font-kanit font-medium tracking-wide mb-2 text-black">
-                      Casa Alterra (en construcción)
-                    </h3>
-                    <p className="text-base font-source-code text-gray-600">
-                      Residencial • Alto de las Palmas
-                    </p>
-                  </div>
-                </div>
-              </Link>
+            {/* Project Indicators */}
+            <div className="flex justify-center mt-8 space-x-2">
+              {projects.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleManualNavigation(index)}
+                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                    index === (currentSlide % totalProjects) 
+                      ? 'bg-black w-8' 
+                      : 'bg-gray-300 hover:bg-gray-400'
+                  }`}
+                />
+              ))}
             </div>
           </div>
         </div>
       </section>
 
       {/* About Section - Diseñamos espacios */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Image */}
