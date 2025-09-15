@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-interface HealingForestDetailProps {
+interface BelvedereDetailProps {
   projectId: string;
 }
 
-function HealingForestDetail({ projectId }: HealingForestDetailProps) {
+function BelvedereDetail({ projectId }: BelvedereDetailProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -20,20 +20,19 @@ function HealingForestDetail({ projectId }: HealingForestDetailProps) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Imágenes del proyecto Healing Forest
+  // Imágenes del proyecto Belvedere
   const projectImages = [
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/066-MSPH8903.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/003-MSPH8749.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/004-MSPH8752.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/023-MSPH8796.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/030-MSPH8811.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/037-MSPH8826.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/041-MSPH8833.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/043-MSPH8836.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/048-MSPH8847.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/056-MSPH8881.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/068-MSPH8906.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/071-MSPH8914.jpg'
+    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/BELVEDERE/0003-MSPH3792.JPG',
+    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/BELVEDERE/0006-MSPH3797.JPG',
+    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/BELVEDERE/0009-MSPH3802.JPG',
+    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/BELVEDERE/0015-MSPH3815.JPG',
+    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/BELVEDERE/0022-MSPH3829.JPG',
+    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/BELVEDERE/0024-MSPH3834.JPG',
+    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/BELVEDERE/0036-MSPH3857.JPG',
+    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/BELVEDERE/0040-MSPH3864.JPG',
+    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/BELVEDERE/0056-MSPH3894.JPG',
+    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/BELVEDERE/0068-MSPH3920.JPG',
+    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/BELVEDERE/0080-MSPH3956.JPG'
   ];
 
   return (
@@ -79,7 +78,7 @@ function HealingForestDetail({ projectId }: HealingForestDetailProps) {
               <div className="mb-6 relative overflow-hidden">
                 <img 
                   src={projectImages[selectedImage]} 
-                  alt={`Healing Forest - Vista ${selectedImage + 1}`}
+                  alt={`Belvedere - Vista ${selectedImage + 1}`}
                   className="w-full h-[70vh] object-contain transition-all duration-700 ease-out"
                   style={{
                     transform: 'perspective(1000px) rotateY(0deg) scale(1)',
@@ -121,23 +120,23 @@ function HealingForestDetail({ projectId }: HealingForestDetailProps) {
             <div className="lg:w-1/3 p-4 lg:p-8 bg-gray-50">
               <div className="sticky top-32">
                 <h1 className="text-3xl md:text-4xl font-dm-sans font-light tracking-wide text-black mb-4">
-                  Healing Forest
+                  Belvedere
                 </h1>
                 
                 <div className="mb-8">
                   <p className="text-sm font-dm-sans text-gray-600 mb-2">
-                    SALUD Y BIENESTAR • MEDELLÍN • 2024
+                    RESTAURANTE • MEDELLÍN • 2024
                   </p>
                   <div className="w-16 h-px bg-black"></div>
                 </div>
 
                 <div className="space-y-6 text-sm md:text-base font-dm-sans text-gray-700 leading-relaxed">
                   <p>
-                    Healing Forest es una clínica de bienestar integral que fusiona la arquitectura contemporánea con elementos naturales para crear un santuario de sanación. El diseño arquitectónico abraza la filosofía del bienestar holístico, integrando espacios que promueven la paz interior y la conexión con la naturaleza.
+                    Belvedere es un restaurante familiar que reinterpreta la tradición a través de una arquitectura contemporánea. El diseño del espacio celebra la herencia y la descendencia familiar, creando un ambiente acogedor que invita a reunirse y compartir momentos memorables.
                   </p>
                   
                   <p>
-                    La estructura se caracteriza por sus volúmenes puros y líneas limpias que dialogan armoniosamente con el entorno natural. Los espacios interiores fluyen hacia jardines terapéuticos y terrazas verdes, creando una experiencia sensorial completa que apoya el proceso de sanación y renovación de los visitantes.
+                    La arquitectura del restaurante se distingue por su elegante fusión entre elementos clásicos y modernos. Los espacios fluyen naturalmente, creando diferentes ambientes que van desde áreas íntimas para encuentros familiares hasta espacios más amplios para celebraciones. Cada detalle arquitectónico ha sido pensado para honrar la tradición mientras abraza la innovación.
                   </p>
                 </div>
 
@@ -148,7 +147,7 @@ function HealingForestDetail({ projectId }: HealingForestDetailProps) {
                   <dl className="space-y-2 text-sm font-dm-sans">
                     <div className="flex justify-between">
                       <dt className="text-gray-600">Área:</dt>
-                      <dd className="text-black">450 m²</dd>
+                      <dd className="text-black">380 m²</dd>
                     </div>
                     <div className="flex justify-between">
                       <dt className="text-gray-600">Año:</dt>
@@ -169,4 +168,4 @@ function HealingForestDetail({ projectId }: HealingForestDetailProps) {
   );
 }
 
-export default HealingForestDetail;
+export default BelvedereDetail;

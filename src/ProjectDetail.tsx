@@ -41,7 +41,7 @@ function ProjectDetail({ projectId }: ProjectDetailProps) {
           ? 'bg-transparent' 
           : 'bg-white/95 backdrop-blur-sm border-b border-gray-100'
       }`}>
-        <div className="max-w-7xl mx-auto px-8 py-6">
+        <div className="w-full px-16 py-6">
           <div className="flex justify-between items-center">
             <Link to="/" className={`text-sm font-dm-sans font-medium tracking-widest uppercase transition-all duration-500 ${
               isScrolled 

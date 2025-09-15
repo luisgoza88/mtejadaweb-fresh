@@ -57,18 +57,18 @@ function HomePage() {
         <div className="relative z-10 min-h-screen flex flex-col justify-center items-center text-center text-white px-8">
           <div className="max-w-4xl mx-auto mt-16">
             {/* Brand Tagline */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-roboto-serif font-light mb-8 leading-tight">
-              Timeless Elegance in Design
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-roboto-serif font-medium mb-6 leading-tight">
+              Every space is a dialogue between beauty, function, and identity
             </h1>
             
             {/* Brand Description */}
             <p className="text-base md:text-lg font-dm-sans font-light leading-relaxed mb-12 max-w-3xl mx-auto opacity-90">
-              Welcome to a realm where design transcends the ordinary, where every space becomes a testament to sophistication and functionality. Experience architecture that speaks to the soul and design that stands the test of time.
+              Somos un estudio de arquitectura y diseño de interiores comprometido con la creación de espacios funcionales, estéticos y duraderos. Cada proyecto es una exploración profunda de la forma, el espacio y la luz.
             </p>
             
             {/* Call to Action */}
             <button className="inline-flex items-center bg-transparent border-2 border-white text-white px-12 py-4 text-sm font-dm-sans font-medium tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-300">
-              LEARN MORE
+              SABER MÁS
             </button>
           </div>
         </div>
@@ -154,26 +154,26 @@ function HomePage() {
                 </div>
               </Link>
 
-              <div className="flex-none w-1/4 px-2">
+              <Link to="/proyecto/belvedere" className="flex-none w-1/4 px-2">
                 <div className="group">
                   <div className="relative overflow-hidden aspect-[3/4] bg-white">
                     <img 
-                      src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                      alt="Apartamento Minimalista"
+                      src="https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/BELVEDERE/0015-MSPH3815.JPG"
+                      alt="Belvedere"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
                   </div>
                   <div className="pt-6">
                     <h3 className="text-xl font-dm-sans font-medium tracking-wide mb-2 text-black">
-                      Apartamento Minimalista
+                      Belvedere
                     </h3>
                     <p className="text-base font-dm-sans text-gray-600">
-                      Residencial • Cali
+                      Restaurante • Medellín
                     </p>
                   </div>
                 </div>
-              </div>
+              </Link>
 
               <div className="flex-none w-1/4 px-2">
                 <div className="group">
@@ -217,6 +217,41 @@ function HomePage() {
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section - Diseñamos espacios */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Image */}
+            <div className="order-2 lg:order-1">
+              <div className="relative rounded-2xl overflow-hidden shadow-xl">
+                <img 
+                  src="https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/intro-images/CONSULTA/RENDERS%20HEALING%20FOREST%20(11).jpg"
+                  alt="Diseño arquitectónico 3D"
+                  className="w-full h-[500px] object-cover"
+                />
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="order-1 lg:order-2 lg:pl-12">
+              <h2 className="text-4xl md:text-5xl font-roboto-serif font-light mb-8 text-black leading-tight">
+                Diseñamos espacios,<br/>
+                creamos<br/>
+                historias
+              </h2>
+              
+              <p className="text-base md:text-lg font-dm-sans text-gray-600 leading-relaxed mb-10">
+                Diseñamos con intención, mezclando forma, función y alma. Nuestro propósito es diseñar espacios que trascienden lo estético: lugares que se conectan con el entorno y permiten elevar la experiencia de quienes lo habitan.
+              </p>
+
+              <Link to="/consulta" className="inline-flex items-center bg-black text-white px-8 py-4 text-sm font-dm-sans font-medium tracking-widest uppercase hover:bg-gray-800 transition-all duration-300 rounded-full">
+                RESERVAR CONSULTA
+              </Link>
             </div>
           </div>
         </div>

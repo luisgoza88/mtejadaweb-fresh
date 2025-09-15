@@ -1,56 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-interface HealingForestDetailProps {
-  projectId: string;
-}
+function ConsultaPage() {
+  const [formData, setFormData] = useState({
+    nombre: '',
+    email: '',
+    telefono: '',
+    tipoProyecto: '',
+    ubicacion: '',
+    presupuesto: '',
+    fechaDeseada: '',
+    descripcion: ''
+  });
 
-function HealingForestDetail({ projectId }: HealingForestDetailProps) {
-  const [selectedImage, setSelectedImage] = useState(0);
-  const [isScrolled, setIsScrolled] = useState(false);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      // Cambia a transparente después de 100px de scroll
-      setIsScrolled(scrollPosition > 100);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Imágenes del proyecto Healing Forest
-  const projectImages = [
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/066-MSPH8903.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/003-MSPH8749.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/004-MSPH8752.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/023-MSPH8796.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/030-MSPH8811.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/037-MSPH8826.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/041-MSPH8833.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/043-MSPH8836.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/048-MSPH8847.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/056-MSPH8881.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/068-MSPH8906.jpg',
-    'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HEALING%20FOREST/071-MSPH8914.jpg'
-  ];
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Aquí se procesaría el envío del formulario
+    console.log('Formulario enviado:', formData);
+  };
 
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-        isScrolled 
-          ? 'bg-transparent' 
-          : 'bg-white/95 backdrop-blur-sm border-b border-gray-100'
-      }`}>
+      <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 border-b border-gray-100">
         <div className="w-full px-16 py-6">
           <div className="flex justify-between items-center">
-            <Link to="/" className={`text-sm font-dm-sans font-medium tracking-widest uppercase transition-all duration-500 ${
-              isScrolled 
-                ? 'text-white/90 hover:text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]' 
-                : 'text-black hover:opacity-50'
-            }`}>
+            <Link to="/" className="text-sm font-dm-sans font-medium tracking-widest text-black uppercase hover:opacity-50 transition-opacity duration-300">
               ← VOLVER
             </Link>
             <div className="h-8">
@@ -71,97 +53,167 @@ function HealingForestDetail({ projectId }: HealingForestDetailProps) {
 
       {/* Main Content */}
       <main className="pt-24">
-        <div className="max-w-full">
-          <div className="flex flex-col lg:flex-row">
-            {/* Gallery Section */}
-            <div className="lg:w-2/3 p-4 lg:p-8">
-              {/* Main Image */}
-              <div className="mb-6 relative overflow-hidden">
-                <img 
-                  src={projectImages[selectedImage]} 
-                  alt={`Healing Forest - Vista ${selectedImage + 1}`}
-                  className="w-full h-[70vh] object-contain transition-all duration-700 ease-out"
-                  style={{
-                    transform: 'perspective(1000px) rotateY(0deg) scale(1)',
-                  }}
-                />
-              </div>
+        <div className="max-w-6xl mx-auto px-4 md:px-8 py-12">
+          {/* Header */}
+          <div className="text-center mb-12">
+            <h1 className="text-4xl md:text-5xl font-roboto-serif font-light mb-6 text-black">
+              Reserva tu Consulta
+            </h1>
+            <p className="text-lg font-dm-sans text-gray-600 max-w-2xl mx-auto">
+              Comencemos a dar forma a tu visión. Completa el formulario y nos pondremos en contacto contigo para agendar una consulta personalizada.
+            </p>
+          </div>
 
-              {/* Thumbnails */}
-              <div className="grid grid-cols-4 md:grid-cols-6 gap-2">
-                {projectImages.map((image, index) => (
-                  <div
-                    key={index}
-                    onMouseEnter={() => setSelectedImage(index)}
-                    className={`relative overflow-hidden aspect-square cursor-pointer group ${
-                      selectedImage === index ? 'ring-2 ring-black' : ''
-                    }`}
-                    style={{
-                      transform: selectedImage === index ? 'scale(1.05)' : 'scale(1)',
-                      transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                    }}
+          {/* Form Section */}
+          <div className="max-w-2xl mx-auto">
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Nombre */}
+                <div>
+                  <label htmlFor="nombre" className="block text-sm font-dm-sans font-medium text-gray-700 mb-2">
+                    Nombre Completo *
+                  </label>
+                  <input
+                    type="text"
+                    id="nombre"
+                    name="nombre"
+                    required
+                    value={formData.nombre}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                  />
+                </div>
+
+                {/* Email */}
+                <div>
+                  <label htmlFor="email" className="block text-sm font-dm-sans font-medium text-gray-700 mb-2">
+                    Correo Electrónico *
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    required
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                  />
+                </div>
+
+                {/* Teléfono */}
+                <div>
+                  <label htmlFor="telefono" className="block text-sm font-dm-sans font-medium text-gray-700 mb-2">
+                    Teléfono *
+                  </label>
+                  <input
+                    type="tel"
+                    id="telefono"
+                    name="telefono"
+                    required
+                    value={formData.telefono}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                  />
+                </div>
+
+                {/* Tipo de Proyecto */}
+                <div>
+                  <label htmlFor="tipoProyecto" className="block text-sm font-dm-sans font-medium text-gray-700 mb-2">
+                    Tipo de Proyecto *
+                  </label>
+                  <select
+                    id="tipoProyecto"
+                    name="tipoProyecto"
+                    required
+                    value={formData.tipoProyecto}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
                   >
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
-                    <img 
-                      src={image} 
-                      alt={`Miniatura ${index + 1}`}
-                      className="w-full h-full object-cover transition-all duration-500 ease-out"
-                      style={{
-                        transform: selectedImage === index 
-                          ? 'perspective(500px) rotateY(-5deg) scale(1.1)' 
-                          : 'perspective(500px) rotateY(0deg) scale(1)',
-                      }}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Info Section */}
-            <div className="lg:w-1/3 p-4 lg:p-8 bg-gray-50">
-              <div className="sticky top-32">
-                <h1 className="text-3xl md:text-4xl font-dm-sans font-light tracking-wide text-black mb-4">
-                  Healing Forest
-                </h1>
-                
-                <div className="mb-8">
-                  <p className="text-sm font-dm-sans text-gray-600 mb-2">
-                    SALUD Y BIENESTAR • MEDELLÍN • 2024
-                  </p>
-                  <div className="w-16 h-px bg-black"></div>
+                    <option value="">Selecciona una opción</option>
+                    <option value="residencial">Residencial</option>
+                    <option value="comercial">Comercial</option>
+                    <option value="oficina">Oficina</option>
+                    <option value="restaurante">Restaurante</option>
+                    <option value="salud">Salud y Bienestar</option>
+                    <option value="otro">Otro</option>
+                  </select>
                 </div>
 
-                <div className="space-y-6 text-sm md:text-base font-dm-sans text-gray-700 leading-relaxed">
-                  <p>
-                    Healing Forest es una clínica de bienestar integral que fusiona la arquitectura contemporánea con elementos naturales para crear un santuario de sanación. El diseño arquitectónico abraza la filosofía del bienestar holístico, integrando espacios que promueven la paz interior y la conexión con la naturaleza.
-                  </p>
-                  
-                  <p>
-                    La estructura se caracteriza por sus volúmenes puros y líneas limpias que dialogan armoniosamente con el entorno natural. Los espacios interiores fluyen hacia jardines terapéuticos y terrazas verdes, creando una experiencia sensorial completa que apoya el proceso de sanación y renovación de los visitantes.
-                  </p>
+                {/* Ubicación */}
+                <div>
+                  <label htmlFor="ubicacion" className="block text-sm font-dm-sans font-medium text-gray-700 mb-2">
+                    Ubicación del Proyecto
+                  </label>
+                  <input
+                    type="text"
+                    id="ubicacion"
+                    name="ubicacion"
+                    value={formData.ubicacion}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                  />
                 </div>
 
-                <div className="mt-8 pt-8 border-t border-gray-300">
-                  <h3 className="text-sm font-dm-sans font-medium tracking-widest uppercase mb-4">
-                    Ficha Técnica
-                  </h3>
-                  <dl className="space-y-2 text-sm font-dm-sans">
-                    <div className="flex justify-between">
-                      <dt className="text-gray-600">Área:</dt>
-                      <dd className="text-black">450 m²</dd>
-                    </div>
-                    <div className="flex justify-between">
-                      <dt className="text-gray-600">Año:</dt>
-                      <dd className="text-black">2024</dd>
-                    </div>
-                    <div className="flex justify-between">
-                      <dt className="text-gray-600">Ubicación:</dt>
-                      <dd className="text-black">Medellín, Colombia</dd>
-                    </div>
-                  </dl>
+                {/* Presupuesto */}
+                <div>
+                  <label htmlFor="presupuesto" className="block text-sm font-dm-sans font-medium text-gray-700 mb-2">
+                    Presupuesto Estimado
+                  </label>
+                  <select
+                    id="presupuesto"
+                    name="presupuesto"
+                    value={formData.presupuesto}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                  >
+                    <option value="">Selecciona un rango</option>
+                    <option value="<100M">Menos de 100 millones COP</option>
+                    <option value="100M-300M">100 - 300 millones COP</option>
+                    <option value="300M-500M">300 - 500 millones COP</option>
+                    <option value="500M-1B">500 millones - 1 billón COP</option>
+                    <option value=">1B">Más de 1 billón COP</option>
+                  </select>
                 </div>
-              </div>
-            </div>
+
+                {/* Fecha Deseada */}
+                <div>
+                  <label htmlFor="fechaDeseada" className="block text-sm font-dm-sans font-medium text-gray-700 mb-2">
+                    Fecha Deseada de Inicio
+                  </label>
+                  <input
+                    type="date"
+                    id="fechaDeseada"
+                    name="fechaDeseada"
+                    value={formData.fechaDeseada}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
+                  />
+                </div>
+
+                {/* Descripción */}
+                <div>
+                  <label htmlFor="descripcion" className="block text-sm font-dm-sans font-medium text-gray-700 mb-2">
+                    Descripción del Proyecto *
+                  </label>
+                  <textarea
+                    id="descripcion"
+                    name="descripcion"
+                    required
+                    rows={4}
+                    value={formData.descripcion}
+                    onChange={handleChange}
+                    placeholder="Cuéntanos sobre tu visión, necesidades y expectativas..."
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200 resize-none"
+                  />
+                </div>
+
+                {/* Submit Button */}
+                <button
+                  type="submit"
+                  className="w-full bg-black text-white px-8 py-4 text-sm font-dm-sans font-medium tracking-widest uppercase hover:bg-gray-800 transition-all duration-300 rounded-full"
+                >
+                  ENVIAR CONSULTA
+                </button>
+              </form>
           </div>
         </div>
       </main>
@@ -169,4 +221,4 @@ function HealingForestDetail({ projectId }: HealingForestDetailProps) {
   );
 }
 
-export default HealingForestDetail;
+export default ConsultaPage;
