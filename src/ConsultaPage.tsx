@@ -8,8 +8,6 @@ function ConsultaPage() {
     telefono: '',
     tipoProyecto: '',
     ubicacion: '',
-    presupuesto: '',
-    fechaDeseada: '',
     descripcion: ''
   });
 
@@ -148,42 +146,6 @@ function ConsultaPage() {
                     id="ubicacion"
                     name="ubicacion"
                     value={formData.ubicacion}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
-                  />
-                </div>
-
-                {/* Presupuesto */}
-                <div>
-                  <label htmlFor="presupuesto" className="block text-sm font-dm-sans font-medium text-gray-700 mb-2">
-                    Presupuesto Estimado
-                  </label>
-                  <select
-                    id="presupuesto"
-                    name="presupuesto"
-                    value={formData.presupuesto}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
-                  >
-                    <option value="">Selecciona un rango</option>
-                    <option value="<100M">Menos de 100 millones COP</option>
-                    <option value="100M-300M">100 - 300 millones COP</option>
-                    <option value="300M-500M">300 - 500 millones COP</option>
-                    <option value="500M-1B">500 millones - 1 billón COP</option>
-                    <option value=">1B">Más de 1 billón COP</option>
-                  </select>
-                </div>
-
-                {/* Fecha Deseada */}
-                <div>
-                  <label htmlFor="fechaDeseada" className="block text-sm font-dm-sans font-medium text-gray-700 mb-2">
-                    Fecha Deseada de Inicio
-                  </label>
-                  <input
-                    type="date"
-                    id="fechaDeseada"
-                    name="fechaDeseada"
-                    value={formData.fechaDeseada}
                     onChange={handleChange}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent transition-all duration-200"
                   />
