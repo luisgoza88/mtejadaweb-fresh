@@ -78,7 +78,7 @@ function App() {
         <div className="max-w-full">
           <div className="px-4 md:px-8 mb-12">
             <h2 className="text-2xl md:text-3xl font-dm-sans font-light tracking-wide text-black">
-              Proyectos Destacados
+              Proyectos
             </h2>
           </div>
           
@@ -115,15 +115,15 @@ function App() {
                 <div className="group">
                   <div className="relative overflow-hidden aspect-[3/4] bg-white">
                     <img 
-                      src="https://images.unsplash.com/photo-1600607687644-c7171b42498b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                      alt="Casa Verde"
+                      src="https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/intro-images/097-MSPH8735.jpg"
+                      alt="Oficina BIO 26"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
                   </div>
                   <div className="pt-6">
                     <h3 className="text-xl font-dm-sans font-medium tracking-wide mb-2 text-black">
-                      Casa Verde
+                      Oficina BIO 26
                     </h3>
                     <p className="text-base font-dm-sans text-gray-600">
                       Residencial • Bogotá
