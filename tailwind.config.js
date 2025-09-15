@@ -10,6 +10,7 @@ export default {
         'dm-sans': ['DM Sans', 'sans-serif'],
         'source-code': ['Source Code Pro', 'monospace'],
         'roboto-serif': ['Roboto Serif', 'serif'],
+        'kanit': ['Kanit', 'sans-serif'],
       },
     },
   },

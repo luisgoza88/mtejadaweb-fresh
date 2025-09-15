@@ -45,7 +45,7 @@ function BelvedereDetail({ projectId }: BelvedereDetailProps) {
       }`}>
         <div className="w-full px-16 py-6">
           <div className="flex justify-between items-center">
-            <Link to="/" className={`text-sm font-dm-sans font-medium tracking-widest uppercase transition-all duration-500 ${
+            <Link to="/" className={`text-sm font-source-code font-medium tracking-widest uppercase transition-all duration-500 ${
               isScrolled 
                 ? 'text-white/90 hover:text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]' 
                 : 'text-black hover:opacity-50'
@@ -119,12 +119,12 @@ function BelvedereDetail({ projectId }: BelvedereDetailProps) {
             {/* Info Section */}
             <div className="lg:w-1/3 p-4 lg:p-8 bg-gray-50">
               <div className="sticky top-32">
-                <h1 className="text-3xl md:text-4xl font-dm-sans font-light tracking-wide text-black mb-4">
+                <h1 className="text-3xl md:text-4xl font-kanit font-light tracking-wide text-black mb-4">
                   Belvedere
                 </h1>
                 
                 <div className="mb-8">
-                  <p className="text-sm font-dm-sans text-gray-600 mb-2">
+                  <p className="text-sm font-source-code text-gray-600 mb-2">
                     RESTAURANTE • MEDELLÍN • 2024
                   </p>
                   <div className="w-16 h-px bg-black"></div>
@@ -141,10 +141,10 @@ function BelvedereDetail({ projectId }: BelvedereDetailProps) {
                 </div>
 
                 <div className="mt-8 pt-8 border-t border-gray-300">
-                  <h3 className="text-sm font-dm-sans font-medium tracking-widest uppercase mb-4">
+                  <h3 className="text-sm font-kanit font-medium tracking-widest uppercase mb-4">
                     Ficha Técnica
                   </h3>
-                  <dl className="space-y-2 text-sm font-dm-sans">
+                  <dl className="space-y-2 text-sm font-source-code">
                     <div className="flex justify-between">
                       <dt className="text-gray-600">Área:</dt>
                       <dd className="text-black">380 m²</dd>

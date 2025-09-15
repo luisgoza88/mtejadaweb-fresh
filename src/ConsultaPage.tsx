@@ -30,7 +30,7 @@ function ConsultaPage() {
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 border-b border-gray-100">
         <div className="w-full px-16 py-6">
           <div className="flex justify-between items-center">
-            <Link to="/" className="text-sm font-dm-sans font-medium tracking-widest text-black uppercase hover:opacity-50 transition-opacity duration-300">
+            <Link to="/" className="text-sm font-source-code font-medium tracking-widest text-black uppercase hover:opacity-50 transition-opacity duration-300">
               ← VOLVER
             </Link>
             <div className="h-8">
@@ -54,7 +54,7 @@ function ConsultaPage() {
         <div className="max-w-6xl mx-auto px-4 md:px-8 py-12">
           {/* Header */}
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-roboto-serif font-light mb-6 text-black">
+            <h1 className="text-4xl md:text-5xl font-kanit font-light mb-6 text-black">
               Reserva tu Consulta
             </h1>
             <p className="text-lg font-dm-sans text-gray-600 max-w-2xl mx-auto">
@@ -67,7 +67,7 @@ function ConsultaPage() {
               <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Nombre */}
                 <div>
-                  <label htmlFor="nombre" className="block text-sm font-dm-sans font-medium text-gray-700 mb-2">
+                  <label htmlFor="nombre" className="block text-sm font-source-code font-medium text-gray-700 mb-2">
                     Nombre Completo *
                   </label>
                   <input
@@ -83,7 +83,7 @@ function ConsultaPage() {
 
                 {/* Email */}
                 <div>
-                  <label htmlFor="email" className="block text-sm font-dm-sans font-medium text-gray-700 mb-2">
+                  <label htmlFor="email" className="block text-sm font-source-code font-medium text-gray-700 mb-2">
                     Correo Electrónico *
                   </label>
                   <input
@@ -99,7 +99,7 @@ function ConsultaPage() {
 
                 {/* Teléfono */}
                 <div>
-                  <label htmlFor="telefono" className="block text-sm font-dm-sans font-medium text-gray-700 mb-2">
+                  <label htmlFor="telefono" className="block text-sm font-source-code font-medium text-gray-700 mb-2">
                     Teléfono *
                   </label>
                   <input
@@ -115,7 +115,7 @@ function ConsultaPage() {
 
                 {/* Tipo de Proyecto */}
                 <div>
-                  <label htmlFor="tipoProyecto" className="block text-sm font-dm-sans font-medium text-gray-700 mb-2">
+                  <label htmlFor="tipoProyecto" className="block text-sm font-source-code font-medium text-gray-700 mb-2">
                     Tipo de Proyecto *
                   </label>
                   <select
@@ -138,7 +138,7 @@ function ConsultaPage() {
 
                 {/* Ubicación */}
                 <div>
-                  <label htmlFor="ubicacion" className="block text-sm font-dm-sans font-medium text-gray-700 mb-2">
+                  <label htmlFor="ubicacion" className="block text-sm font-source-code font-medium text-gray-700 mb-2">
                     Ubicación del Proyecto
                   </label>
                   <input
@@ -153,7 +153,7 @@ function ConsultaPage() {
 
                 {/* Descripción */}
                 <div>
-                  <label htmlFor="descripcion" className="block text-sm font-dm-sans font-medium text-gray-700 mb-2">
+                  <label htmlFor="descripcion" className="block text-sm font-source-code font-medium text-gray-700 mb-2">
                     Descripción del Proyecto *
                   </label>
                   <textarea
@@ -171,7 +171,7 @@ function ConsultaPage() {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="w-full bg-black text-white px-8 py-4 text-sm font-dm-sans font-medium tracking-widest uppercase hover:bg-gray-800 transition-all duration-300 rounded-full"
+                  className="w-full bg-black text-white px-8 py-4 text-sm font-source-code font-medium tracking-widest uppercase hover:bg-gray-800 transition-all duration-300 rounded-full"
                 >
                   ENVIAR CONSULTA
                 </button>

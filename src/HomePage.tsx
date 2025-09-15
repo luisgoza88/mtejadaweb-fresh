@@ -42,7 +42,7 @@ function HomePage() {
               </div>
               
               {/* Navigation Menu */}
-              <div className="hidden md:flex space-x-12 text-xs font-dm-sans font-medium tracking-widest text-white uppercase">
+              <div className="hidden md:flex space-x-12 text-xs font-source-code font-medium tracking-widest text-white uppercase">
                 <a href="#" className="hover:opacity-50 transition-opacity duration-300">HOME</a>
                 <a href="#" className="hover:opacity-50 transition-opacity duration-300">PROYECTOS</a>
                 <a href="#" className="hover:opacity-50 transition-opacity duration-300">SERVICIOS</a>
@@ -57,7 +57,7 @@ function HomePage() {
         <div className="relative z-10 min-h-screen flex flex-col justify-center items-center text-center text-white px-8">
           <div className="max-w-4xl mx-auto mt-16">
             {/* Brand Tagline */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-roboto-serif font-medium mb-6 leading-tight">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-kanit font-medium mb-6 leading-tight">
               Every space is a dialogue between beauty, function, and identity
             </h1>
             
@@ -67,7 +67,7 @@ function HomePage() {
             </p>
             
             {/* Call to Action */}
-            <button className="inline-flex items-center bg-transparent border-2 border-white text-white px-12 py-4 text-sm font-dm-sans font-medium tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-300">
+            <button className="inline-flex items-center bg-transparent border-2 border-white text-white px-12 py-4 text-sm font-source-code font-medium tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-300">
               SABER MÁS
             </button>
           </div>
@@ -78,7 +78,7 @@ function HomePage() {
       <section className="py-16 bg-gray-50 overflow-hidden">
         <div className="max-w-full">
           <div className="px-4 md:px-8 mb-12">
-            <h2 className="text-2xl md:text-3xl font-dm-sans font-light tracking-wide text-black">
+            <h2 className="text-2xl md:text-3xl font-kanit font-medium tracking-wide text-black">
               Proyectos
             </h2>
           </div>
@@ -112,22 +112,22 @@ function HomePage() {
               className="flex transition-transform duration-700 ease-in-out px-4"
               style={{ transform: `translateX(-${currentSlide * 25}%)` }}
             >
-              <Link to="/proyecto/oficina-bio26" className="flex-none w-1/4 px-2">
+              <Link to="/proyecto/belvedere" className="flex-none w-1/4 px-2">
                 <div className="group">
                   <div className="relative overflow-hidden aspect-[3/4] bg-white">
                     <img 
-                      src="https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/intro-images/049-MSPH8638.jpg"
-                      alt="Oficina BIO26"
+                      src="https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/BELVEDERE/0015-MSPH3815.JPG"
+                      alt="Belvedere"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
                   </div>
                   <div className="pt-6">
-                    <h3 className="text-xl font-dm-sans font-medium tracking-wide mb-2 text-black">
-                      Oficina BIO26
+                    <h3 className="text-xl font-kanit font-medium tracking-wide mb-2 text-black">
+                      Belvedere
                     </h3>
-                    <p className="text-base font-dm-sans text-gray-600">
-                      Comercial • Medellín
+                    <p className="text-base font-source-code text-gray-600">
+                      Restaurante • Medellín
                     </p>
                   </div>
                 </div>
@@ -144,79 +144,78 @@ function HomePage() {
                     <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
                   </div>
                   <div className="pt-6">
-                    <h3 className="text-xl font-dm-sans font-medium tracking-wide mb-2 text-black">
+                    <h3 className="text-xl font-kanit font-medium tracking-wide mb-2 text-black">
                       Healing Forest
                     </h3>
-                    <p className="text-base font-dm-sans text-gray-600">
+                    <p className="text-base font-source-code text-gray-600">
                       Salud y Bienestar • Medellín
                     </p>
                   </div>
                 </div>
               </Link>
 
-              <Link to="/proyecto/belvedere" className="flex-none w-1/4 px-2">
+              <Link to="/proyecto/oficina-bio26" className="flex-none w-1/4 px-2">
                 <div className="group">
                   <div className="relative overflow-hidden aspect-[3/4] bg-white">
                     <img 
-                      src="https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/BELVEDERE/0015-MSPH3815.JPG"
-                      alt="Belvedere"
+                      src="https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/intro-images/049-MSPH8638.jpg"
+                      alt="Oficina BIO26"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
                   </div>
                   <div className="pt-6">
-                    <h3 className="text-xl font-dm-sans font-medium tracking-wide mb-2 text-black">
-                      Belvedere
+                    <h3 className="text-xl font-kanit font-medium tracking-wide mb-2 text-black">
+                      Oficina BIO26
                     </h3>
-                    <p className="text-base font-dm-sans text-gray-600">
-                      Restaurante • Medellín
+                    <p className="text-base font-source-code text-gray-600">
+                      Comercial • Medellín
                     </p>
                   </div>
                 </div>
               </Link>
 
-              <div className="flex-none w-1/4 px-2">
+              <Link to="/proyecto/hotel-dos7" className="flex-none w-1/4 px-2">
                 <div className="group">
                   <div className="relative overflow-hidden aspect-[3/4] bg-white">
                     <img 
-                      src="https://images.unsplash.com/photo-1600607687644-c7171b42498b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                      alt="Loft Industrial"
+                      src="https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/HOTEL%20DOS7/Fachada%201%20Noche.png"
+                      alt="Hotel DOS7"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
                   </div>
                   <div className="pt-6">
-                    <h3 className="text-xl font-dm-sans font-medium tracking-wide mb-2 text-black">
-                      Loft Industrial
+                    <h3 className="text-xl font-kanit font-medium tracking-wide mb-2 text-black">
+                      Hotel DOS7
                     </h3>
-                    <p className="text-base font-dm-sans text-gray-600">
-                      Residencial • Cartagena
+                    <p className="text-base font-source-code text-gray-600">
+                      Hotel • Envigado
                     </p>
                   </div>
                 </div>
-              </div>
+              </Link>
 
-              {/* Additional projects for carousel effect */}
-              <div className="flex-none w-1/4 px-2">
+              <Link to="/proyecto/casa-alterra" className="flex-none w-1/4 px-2">
                 <div className="group">
                   <div className="relative overflow-hidden aspect-[3/4] bg-white">
                     <img 
-                      src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                      alt="Villa Moderna"
+                      src="https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/CASA%20ALTERRA/WhatsApp%20Image%202025-09-15%20at%2017.56.05.jpeg"
+                      alt="Casa Alterra"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300"></div>
                   </div>
                   <div className="pt-6">
-                    <h3 className="text-xl font-dm-sans font-medium tracking-wide mb-2 text-black">
-                      Villa Moderna
+                    <h3 className="text-xl font-kanit font-medium tracking-wide mb-2 text-black">
+                      Casa Alterra (en construcción)
                     </h3>
-                    <p className="text-base font-dm-sans text-gray-600">
-                      Residencial • Barranquilla
+                    <p className="text-base font-source-code text-gray-600">
+                      Residencial • Alto de las Palmas
                     </p>
                   </div>
                 </div>
-              </div>
+              </Link>
             </div>
           </div>
         </div>
@@ -239,7 +238,7 @@ function HomePage() {
 
             {/* Content */}
             <div className="order-1 lg:order-2 lg:pl-12">
-              <h2 className="text-4xl md:text-5xl font-roboto-serif font-light mb-8 text-black leading-tight">
+              <h2 className="text-4xl md:text-5xl font-kanit font-light mb-8 text-black leading-tight">
                 Diseñamos espacios,<br/>
                 creamos<br/>
                 historias
@@ -249,7 +248,7 @@ function HomePage() {
                 Diseñamos con intención, mezclando forma, función y alma. Nuestro propósito es diseñar espacios que trascienden lo estético: lugares que se conectan con el entorno y permiten elevar la experiencia de quienes lo habitan.
               </p>
 
-              <Link to="/consulta" className="inline-flex items-center bg-black text-white px-8 py-4 text-sm font-dm-sans font-medium tracking-widest uppercase hover:bg-gray-800 transition-all duration-300 rounded-full">
+              <Link to="/consulta" className="inline-flex items-center bg-black text-white px-8 py-4 text-sm font-source-code font-medium tracking-widest uppercase hover:bg-gray-800 transition-all duration-300 rounded-full">
                 RESERVAR CONSULTA
               </Link>
             </div>
@@ -261,7 +260,7 @@ function HomePage() {
       <section className="py-16 bg-white">
         <div className="max-w-full px-4 md:px-8">
           <div className="text-left mb-12">
-            <h2 className="text-2xl md:text-3xl font-dm-sans font-light tracking-wide text-black">
+            <h2 className="text-2xl md:text-3xl font-roboto-serif font-light tracking-wide text-black">
               Servicios
             </h2>
           </div>
@@ -278,7 +277,7 @@ function HomePage() {
                 <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
               </div>
               <div>
-                <h3 className="text-xl md:text-2xl font-dm-sans font-medium tracking-wide mb-3 text-black">
+                <h3 className="text-xl md:text-2xl font-kanit font-medium tracking-wide mb-3 text-black">
                   Arquitectura
                 </h3>
                 <p className="text-sm md:text-base font-dm-sans text-gray-600 leading-relaxed">
@@ -298,7 +297,7 @@ function HomePage() {
                 <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
               </div>
               <div>
-                <h3 className="text-xl md:text-2xl font-dm-sans font-medium tracking-wide mb-3 text-black">
+                <h3 className="text-xl md:text-2xl font-kanit font-medium tracking-wide mb-3 text-black">
                   Diseño Interior
                 </h3>
                 <p className="text-sm md:text-base font-dm-sans text-gray-600 leading-relaxed">
@@ -318,7 +317,7 @@ function HomePage() {
                 <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
               </div>
               <div>
-                <h3 className="text-xl md:text-2xl font-dm-sans font-medium tracking-wide mb-3 text-black">
+                <h3 className="text-xl md:text-2xl font-kanit font-medium tracking-wide mb-3 text-black">
                   Consultoría
                 </h3>
                 <p className="text-sm md:text-base font-dm-sans text-gray-600 leading-relaxed">
