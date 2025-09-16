@@ -5,6 +5,9 @@ function HomePage() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const autoPlayRef = useRef(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isVideoInView, setIsVideoInView] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
 
   // Projects data
   const projects = [
@@ -52,16 +55,8 @@ function HomePage() {
     if (isAutoPlaying) {
       autoPlayRef.current = setInterval(() => {
         setCurrentSlide(prev => {
-          const nextSlide = prev + 1;
-          // When we reach the duplicate set, instantly reset to start without transition
-          if (nextSlide >= totalProjects) {
-            // Use setTimeout to reset without transition
-            setTimeout(() => {
-              setCurrentSlide(0);
-            }, 50);
-            return nextSlide;
-          }
-          return nextSlide;
+          // Always move forward
+          return prev + 1;
         });
       }, 4000); // Change slide every 4 seconds for slow, smooth movement
     } else {
@@ -69,7 +64,28 @@ function HomePage() {
     }
 
     return () => clearInterval(autoPlayRef.current);
-  }, [isAutoPlaying, totalProjects]);
+  }, [isAutoPlaying]);
+
+  // Reset slide position when reaching the end of the duplicate set
+  useEffect(() => {
+    if (currentSlide >= totalProjects) {
+      // Use a timeout to reset after the transition completes
+      const resetTimeout = setTimeout(() => {
+        // Temporarily disable transition
+        const carousel = document.getElementById('project-carousel');
+        if (carousel) {
+          carousel.style.transition = 'none';
+          setCurrentSlide(0);
+          // Re-enable transition after a brief delay
+          setTimeout(() => {
+            carousel.style.transition = 'transform 1000ms ease-out';
+          }, 50);
+        }
+      }, 1000); // Wait for transition to complete
+
+      return () => clearTimeout(resetTimeout);
+    }
+  }, [currentSlide, totalProjects]);
 
   // Pause auto-play on manual interaction
   const handleManualNavigation = (newSlide) => {
@@ -83,14 +99,70 @@ function HomePage() {
   };
 
   const nextSlide = () => {
-    const newSlide = (currentSlide + 1) % totalProjects;
-    handleManualNavigation(newSlide);
+    handleManualNavigation(currentSlide + 1);
   };
 
   const prevSlide = () => {
-    const newSlide = currentSlide === 0 ? totalProjects - 1 : currentSlide - 1;
-    handleManualNavigation(newSlide);
+    let newSlide = currentSlide - 1;
+    if (newSlide < 0) {
+      // Move to the last project in the duplicate set
+      const carousel = document.getElementById('project-carousel');
+      if (carousel) {
+        carousel.style.transition = 'none';
+        setCurrentSlide(totalProjects - 1);
+        setTimeout(() => {
+          carousel.style.transition = 'transform 1000ms ease-out';
+        }, 50);
+      }
+    } else {
+      handleManualNavigation(newSlide);
+    }
   };
+
+  // Video intersection observer with sound control
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.3
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setIsVideoInView(true);
+          if (videoRef.current) {
+            // Unmute and play with sound
+            videoRef.current.muted = false;
+            videoRef.current.volume = 0.5; // Set volume to 50%
+            videoRef.current.play().catch(error => {
+              // If autoplay with sound fails, try muted
+              console.log('Autoplay with sound failed, playing muted:', error);
+              videoRef.current.muted = true;
+              videoRef.current.play();
+            });
+          }
+        } else {
+          setIsVideoInView(false);
+          if (videoRef.current) {
+            // Mute and pause when out of view
+            videoRef.current.muted = true;
+            videoRef.current.pause();
+          }
+        }
+      });
+    }, options);
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+
+    return () => {
+      if (videoRef.current) {
+        observer.unobserve(videoRef.current);
+      }
+    };
+  }, []);
 
   return (
     <div className="min-h-screen bg-white">
@@ -152,12 +224,28 @@ function HomePage() {
       </section>
 
       {/* Projects Section */}
-      <section className="py-16 overflow-hidden" style={{ backgroundColor: '#F5F5F5' }}>
+      <section className="py-16 overflow-hidden" style={{ backgroundColor: '#BCBCBC' }}>
         <div className="max-w-full">
           <div className="px-4 md:px-8 mb-12">
-            <h2 className="text-2xl md:text-3xl font-kanit font-medium tracking-wide text-black">
-              Proyectos
-            </h2>
+            <div className="flex items-center">
+              {/* Symbol */}
+              <svg className="w-8 h-8 mr-4" viewBox="0 0 172.73 119.06" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <style>
+                    {`.symbol-1 { fill: #212423; }`}
+                  </style>
+                </defs>
+                <g>
+                  <g>
+                    <path className="symbol-1" d="M134.57,1.15H58.74v-.03s-15.27,0-15.27,0c-1.09,0-2.28.88-2.68,1.97L.12,117.14c-.39,1.04.18,1.92,1.27,1.92h15.23l15.95-44.65,10.11-28.28,8.2-23,1-2.8c.63-1.75,2.28-2.92,4.14-2.92h18c1.8,0,3.32.62,4.57,1.8,1.25,1.18,1.87,2.56,1.87,4.22v93.63c0,1.08.88,1.96,1.96,1.96h13.31c1.08,0,1.96-.88,1.96-1.96V23.43c0-1.84.77-3.35,2.31-4.61,1.14-.93,2.59-1.42,4.06-1.42h30.5c1.08,0,1.96-.88,1.96-1.96V3.11c0-1.08-.88-1.96-1.96-1.96Z"/>
+                    <path className="symbol-1" d="M163.63,0c1.24,0,2.41.25,3.53.74,1.11.5,2.08,1.16,2.91,1.98.82.83,1.48,1.79,1.98,2.91.45,1.24.68,2.45.68,3.65s-.23,2.43-.68,3.59c-.5,1.16-1.16,2.15-1.98,2.97-.83.83-1.79,1.48-2.91,1.98-1.11.49-2.29.74-3.53.74s-2.41-.25-3.53-.74c-1.11-.5-2.08-1.15-2.91-1.98-.87-.87-1.51-1.86-1.92-2.97-.5-1.11-.74-2.31-.74-3.59s.25-2.45.74-3.65c.41-1.07,1.05-2.04,1.92-2.91s1.79-1.48,2.91-1.98c1.11-.49,2.29-.74,3.53-.74ZM163.63,16.83c1.07,0,2.04-.21,2.91-.62.78-.33,1.55-.87,2.29-1.61.62-.62,1.15-1.42,1.61-2.41.37-.91.56-1.88.56-2.91s-.19-2.02-.56-2.97c-.45-.99-.99-1.79-1.61-2.41-.62-.62-1.38-1.15-2.29-1.61-.95-.37-1.92-.56-2.91-.56s-1.98.19-2.85.56c-.95.45-1.73.99-2.35,1.61-.66.66-1.18,1.46-1.55,2.41-.41.87-.62,1.86-.62,2.97s.21,2.04.62,2.91c.37.95.89,1.75,1.55,2.41.74.74,1.53,1.28,2.35,1.61.83.41,1.77.62,2.85.62ZM167.1,14.17c-.45,0-.83-.21-1.11-.62l-1.18-2.17c-.41-.62-.95-.93-1.61-.93h-.37c-.99,0-1.48.48-1.48,1.42v1.67c0,.41-.21.62-.62.62s-.62-.21-.62-.62v-7.12c0-.58.16-1.03.49-1.36s.78-.49,1.36-.49h2.35c.83,0,1.53.29,2.1.87.54.54.8,1.24.8,2.1,0,.62-.15,1.14-.43,1.55-.25.33-.43.56-.56.68-.41.37-.5.74-.25,1.11l1.48,2.66c.29.41.16.62-.37.62ZM164.31,9.22c.45,0,.83-.14,1.11-.43.04,0,.06-.02.06-.06,0-.04.02-.08.06-.12.25-.29.37-.64.37-1.05,0-.49-.14-.89-.43-1.18-.33-.33-.72-.49-1.18-.49h-1.48c-.45,0-.82.13-1.08.4s-.4.63-.4,1.08v.37c0,.45.13.82.4,1.08.27.27.63.4,1.08.4h1.48Z"/>
+                  </g>
+                </g>
+              </svg>
+              <h2 className="text-2xl md:text-3xl font-kanit font-medium tracking-wide text-black">
+                Proyectos
+              </h2>
+            </div>
           </div>
           
           <div className="relative mx-auto" style={{ maxWidth: '85%' }}>
@@ -186,6 +274,7 @@ function HomePage() {
 
             {/* Projects Carousel - Infinite Loop */}
             <div 
+              id="project-carousel"
               className="flex transition-transform duration-1000 ease-out px-4"
               style={{ 
                 transform: `translateX(-${currentSlide * (100 / totalProjects)}%)`,
@@ -269,6 +358,79 @@ function HomePage() {
         </div>
       </section>
 
+      {/* About Me Section - Sobre mí */}
+      <section className="bg-black">
+        <div className="max-w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-stretch" style={{ minHeight: '90vh' }}>
+            {/* Video */}
+            <div className="relative" style={{ height: '90vh' }}>
+              <video 
+                ref={videoRef}
+                loop 
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover"
+                style={{ objectPosition: 'right center' }}
+              >
+                <source src="https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/intro-images/WhatsApp%20Video%202025-09-15%20at%2021.06.39%20(1).mp4" type="video/mp4" />
+              </video>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/50"></div>
+              
+              {/* Volume Control Button */}
+              {isVideoInView && (
+                <button
+                  onClick={() => {
+                    if (videoRef.current) {
+                      videoRef.current.muted = !videoRef.current.muted;
+                      setIsMuted(!isMuted);
+                    }
+                  }}
+                  className="absolute bottom-4 left-4 z-10 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-all duration-300"
+                  aria-label={isMuted ? 'Activar sonido' : 'Silenciar'}
+                >
+                  {isMuted ? (
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                    </svg>
+                  ) : (
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                    </svg>
+                  )}
+                </button>
+              )}
+            </div>
+
+            {/* Content */}
+            <div className="bg-black px-8 lg:px-16 flex items-center" style={{ height: '90vh' }}>
+              <div className="max-w-xl">
+                <h2 className="text-4xl md:text-5xl font-kanit font-light mb-12 text-white">
+                  Sobre mí
+                </h2>
+                
+                <div className="space-y-6 text-base md:text-lg font-dm-sans text-gray-300 leading-relaxed">
+                  <p>
+                    Soy Mariana Tejada, arquitecta de la Universidad Pontificia Bolivariana. A mis 27 años, he dedicado mi carrera a crear espacios que trascienden lo convencional, fusionando elegancia contemporánea con funcionalidad excepcional.
+                  </p>
+                  
+                  <p>
+                    Mi enfoque se centra en diseñar experiencias arquitectónicas que conectan profundamente con las personas. Desde restaurantes familiares que honran tradiciones hasta espacios de bienestar que abrazan la naturaleza, cada proyecto refleja una búsqueda constante de equilibrio entre estética y propósito.
+                  </p>
+                  
+                  <p>
+                    Creo en una arquitectura que respira, que dialoga con su entorno y que eleva la experiencia humana. Mi trabajo se distingue por líneas limpias, materiales honestos y una sensibilidad especial hacia la luz y el espacio, creando ambientes que no solo se habitan, sino que se viven y se sienten.
+                  </p>
+
+                  <p className="text-white font-medium">
+                    Cada espacio cuenta una historia. Mi misión es darle forma a la tuya.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* About Section - Diseñamos espacios */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
@@ -308,9 +470,25 @@ function HomePage() {
       <section className="py-16 bg-white">
         <div className="max-w-full px-4 md:px-8">
           <div className="text-left mb-12">
-            <h2 className="text-2xl md:text-3xl font-roboto-serif font-light tracking-wide text-black">
-              Servicios
-            </h2>
+            <div className="flex items-center">
+              {/* Symbol */}
+              <svg className="w-8 h-8 mr-4" viewBox="0 0 172.73 119.06" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                  <style>
+                    {`.symbol-2 { fill: #212423; }`}
+                  </style>
+                </defs>
+                <g>
+                  <g>
+                    <path className="symbol-2" d="M134.57,1.15H58.74v-.03s-15.27,0-15.27,0c-1.09,0-2.28.88-2.68,1.97L.12,117.14c-.39,1.04.18,1.92,1.27,1.92h15.23l15.95-44.65,10.11-28.28,8.2-23,1-2.8c.63-1.75,2.28-2.92,4.14-2.92h18c1.8,0,3.32.62,4.57,1.8,1.25,1.18,1.87,2.56,1.87,4.22v93.63c0,1.08.88,1.96,1.96,1.96h13.31c1.08,0,1.96-.88,1.96-1.96V23.43c0-1.84.77-3.35,2.31-4.61,1.14-.93,2.59-1.42,4.06-1.42h30.5c1.08,0,1.96-.88,1.96-1.96V3.11c0-1.08-.88-1.96-1.96-1.96Z"/>
+                    <path className="symbol-2" d="M163.63,0c1.24,0,2.41.25,3.53.74,1.11.5,2.08,1.16,2.91,1.98.82.83,1.48,1.79,1.98,2.91.45,1.24.68,2.45.68,3.65s-.23,2.43-.68,3.59c-.5,1.16-1.16,2.15-1.98,2.97-.83.83-1.79,1.48-2.91,1.98-1.11.49-2.29.74-3.53.74s-2.41-.25-3.53-.74c-1.11-.5-2.08-1.15-2.91-1.98-.87-.87-1.51-1.86-1.92-2.97-.5-1.11-.74-2.31-.74-3.59s.25-2.45.74-3.65c.41-1.07,1.05-2.04,1.92-2.91s1.79-1.48,2.91-1.98c1.11-.49,2.29-.74,3.53-.74ZM163.63,16.83c1.07,0,2.04-.21,2.91-.62.78-.33,1.55-.87,2.29-1.61.62-.62,1.15-1.42,1.61-2.41.37-.91.56-1.88.56-2.91s-.19-2.02-.56-2.97c-.45-.99-.99-1.79-1.61-2.41-.62-.62-1.38-1.15-2.29-1.61-.95-.37-1.92-.56-2.91-.56s-1.98.19-2.85.56c-.95.45-1.73.99-2.35,1.61-.66.66-1.18,1.46-1.55,2.41-.41.87-.62,1.86-.62,2.97s.21,2.04.62,2.91c.37.95.89,1.75,1.55,2.41.74.74,1.53,1.28,2.35,1.61.83.41,1.77.62,2.85.62ZM167.1,14.17c-.45,0-.83-.21-1.11-.62l-1.18-2.17c-.41-.62-.95-.93-1.61-.93h-.37c-.99,0-1.48.48-1.48,1.42v1.67c0,.41-.21.62-.62.62s-.62-.21-.62-.62v-7.12c0-.58.16-1.03.49-1.36s.78-.49,1.36-.49h2.35c.83,0,1.53.29,2.1.87.54.54.8,1.24.8,2.1,0,.62-.15,1.14-.43,1.55-.25.33-.43.56-.56.68-.41.37-.5.74-.25,1.11l1.48,2.66c.29.41.16.62-.37.62ZM164.31,9.22c.45,0,.83-.14,1.11-.43.04,0,.06-.02.06-.06,0-.04.02-.08.06-.12.25-.29.37-.64.37-1.05,0-.49-.14-.89-.43-1.18-.33-.33-.72-.49-1.18-.49h-1.48c-.45,0-.82.13-1.08.4s-.4.63-.4,1.08v.37c0,.45.13.82.4,1.08.27.27.63.4,1.08.4h1.48Z"/>
+                  </g>
+                </g>
+              </svg>
+              <h2 className="text-2xl md:text-3xl font-kanit font-medium tracking-wide text-black">
+                Servicios
+              </h2>
+            </div>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -378,12 +556,29 @@ function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-black text-white py-16">
-        <div className="max-w-7xl mx-auto px-8">
+      <footer className="bg-black text-white py-16 relative overflow-hidden">
+        {/* Large Symbol Top Right - Aligned with content */}
+        <div className="absolute top-12 right-24 pointer-events-none">
+          <svg className="w-24 h-24 opacity-30" viewBox="0 0 172.73 119.06" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <style>
+                {`.symbol-footer { fill: #ffffff; }`}
+              </style>
+            </defs>
+            <g>
+              <g>
+                <path className="symbol-footer" d="M134.57,1.15H58.74v-.03s-15.27,0-15.27,0c-1.09,0-2.28.88-2.68,1.97L.12,117.14c-.39,1.04.18,1.92,1.27,1.92h15.23l15.95-44.65,10.11-28.28,8.2-23,1-2.8c.63-1.75,2.28-2.92,4.14-2.92h18c1.8,0,3.32.62,4.57,1.8,1.25,1.18,1.87,2.56,1.87,4.22v93.63c0,1.08.88,1.96,1.96,1.96h13.31c1.08,0,1.96-.88,1.96-1.96V23.43c0-1.84.77-3.35,2.31-4.61,1.14-.93,2.59-1.42,4.06-1.42h30.5c1.08,0,1.96-.88,1.96-1.96V3.11c0-1.08-.88-1.96-1.96-1.96Z"/>
+                <path className="symbol-footer" d="M163.63,0c1.24,0,2.41.25,3.53.74,1.11.5,2.08,1.16,2.91,1.98.82.83,1.48,1.79,1.98,2.91.45,1.24.68,2.45.68,3.65s-.23,2.43-.68,3.59c-.5,1.16-1.16,2.15-1.98,2.97-.83.83-1.79,1.48-2.91,1.98-1.11.49-2.29.74-3.53.74s-2.41-.25-3.53-.74c-1.11-.5-2.08-1.15-2.91-1.98-.87-.87-1.51-1.86-1.92-2.97-.5-1.11-.74-2.31-.74-3.59s.25-2.45.74-3.65c.41-1.07,1.05-2.04,1.92-2.91s1.79-1.48,2.91-1.98c1.11-.49,2.29-.74,3.53-.74ZM163.63,16.83c1.07,0,2.04-.21,2.91-.62.78-.33,1.55-.87,2.29-1.61.62-.62,1.15-1.42,1.61-2.41.37-.91.56-1.88.56-2.91s-.19-2.02-.56-2.97c-.45-.99-.99-1.79-1.61-2.41-.62-.62-1.38-1.15-2.29-1.61-.95-.37-1.92-.56-2.91-.56s-1.98.19-2.85.56c-.95.45-1.73.99-2.35,1.61-.66.66-1.18,1.46-1.55,2.41-.41.87-.62,1.86-.62,2.97s.21,2.04.62,2.91c.37.95.89,1.75,1.55,2.41.74.74,1.53,1.28,2.35,1.61.83.41,1.77.62,2.85.62ZM167.1,14.17c-.45,0-.83-.21-1.11-.62l-1.18-2.17c-.41-.62-.95-.93-1.61-.93h-.37c-.99,0-1.48.48-1.48,1.42v1.67c0,.41-.21.62-.62.62s-.62-.21-.62-.62v-7.12c0-.58.16-1.03.49-1.36s.78-.49,1.36-.49h2.35c.83,0,1.53.29,2.1.87.54.54.8,1.24.8,2.1,0,.62-.15,1.14-.43,1.55-.25.33-.43.56-.56.68-.41.37-.5.74-.25,1.11l1.48,2.66c.29.41.16.62-.37.62ZM164.31,9.22c.45,0,.83-.14,1.11-.43.04,0,.06-.02.06-.06,0-.04.02-.08.06-.12.25-.29.37-.64.37-1.05,0-.49-.14-.89-.43-1.18-.33-.33-.72-.49-1.18-.49h-1.48c-.45,0-.82.13-1.08.4s-.4.63-.4,1.08v.37c0,.45.13.82.4,1.08.27.27.63.4,1.08.4h1.48Z"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-8 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             {/* Logo Column */}
             <div>
-              <div className="h-8 mb-6">
+              <div className="h-9 mb-6">
                 <svg className="h-full w-auto" viewBox="0 0 296.87 36.17" xmlns="http://www.w3.org/2000/svg">
                   <defs>
                     <style>
@@ -395,9 +590,6 @@ function HomePage() {
                   </g>
                 </svg>
               </div>
-              <p className="text-sm font-dm-sans font-light text-gray-400">
-                Arquitectura y Diseño con propósito y elegancia.
-              </p>
             </div>
             
             {/* Contact Column */}
@@ -406,9 +598,9 @@ function HomePage() {
                 Contacto
               </h3>
               <div className="space-y-2 text-sm font-dm-sans font-light text-gray-400">
-                <p>+57 300 123 4567</p>
-                <p>info@marianatejada.com</p>
-                <p>Bogotá, Colombia</p>
+                <p>+57 320 699 9403</p>
+                <p>marianatejada@outlook.com</p>
+                <p>Medellín, Colombia</p>
               </div>
             </div>
             

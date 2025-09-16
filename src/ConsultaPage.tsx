@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { sendEmail } from './services/emailService';
 
 function ConsultaPage() {
   const [formData, setFormData] = useState({
@@ -10,6 +11,8 @@ function ConsultaPage() {
     ubicacion: '',
     descripcion: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitMessage, setSubmitMessage] = useState({ type: '', text: '' });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -18,10 +21,42 @@ function ConsultaPage() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Aquí se procesaría el envío del formulario
-    console.log('Formulario enviado:', formData);
+    setIsSubmitting(true);
+    setSubmitMessage({ type: '', text: '' });
+
+    try {
+      const result = await sendEmail(formData);
+      
+      if (result.success) {
+        setSubmitMessage({ 
+          type: 'success', 
+          text: '¡Gracias por tu consulta! Nos pondremos en contacto contigo pronto.' 
+        });
+        // Limpiar formulario
+        setFormData({
+          nombre: '',
+          email: '',
+          telefono: '',
+          tipoProyecto: '',
+          ubicacion: '',
+          descripcion: ''
+        });
+      } else {
+        setSubmitMessage({ 
+          type: 'error', 
+          text: result.message 
+        });
+      }
+    } catch (error) {
+      setSubmitMessage({ 
+        type: 'error', 
+        text: 'Error al enviar el mensaje. Por favor, intenta de nuevo.' 
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -171,10 +206,26 @@ function ConsultaPage() {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="w-full bg-black text-white px-8 py-4 text-sm font-source-code font-medium tracking-widest uppercase hover:bg-gray-800 transition-all duration-300 rounded-full"
+                  disabled={isSubmitting}
+                  className={`w-full px-8 py-4 text-sm font-source-code font-medium tracking-widest uppercase transition-all duration-300 rounded-full ${
+                    isSubmitting 
+                      ? 'bg-gray-400 cursor-not-allowed' 
+                      : 'bg-black text-white hover:bg-gray-800'
+                  }`}
                 >
-                  ENVIAR CONSULTA
+                  {isSubmitting ? 'ENVIANDO...' : 'ENVIAR CONSULTA'}
                 </button>
+
+                {/* Mensaje de retroalimentación */}
+                {submitMessage.text && (
+                  <div className={`mt-4 p-4 rounded-lg text-center ${
+                    submitMessage.type === 'success' 
+                      ? 'bg-green-100 text-green-700' 
+                      : 'bg-red-100 text-red-700'
+                  }`}>
+                    <p className="font-dm-sans">{submitMessage.text}</p>
+                  </div>
+                )}
               </form>
           </div>
         </div>
