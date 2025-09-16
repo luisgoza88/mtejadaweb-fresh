@@ -35,7 +35,7 @@ function HomePage() {
     },
     {
       id: 'oficina-bio26',
-      title: 'Oficina BIO26 (en construcción)',
+      title: 'Oficina BIO26',
       subtitle: 'Comercial • Medellín',
       image: 'https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/projects/049-MSPH8638.jpg',
       link: '/proyecto/oficina-bio26'
@@ -224,7 +224,9 @@ function HomePage() {
             </p>
             
             {/* Call to Action */}
-            <button className="inline-flex items-center bg-transparent border-2 border-white text-white px-12 py-4 text-sm font-source-code font-medium tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-300">
+            <button 
+              onClick={() => scrollToSection('about')}
+              className="inline-flex items-center bg-transparent border-2 border-white text-white px-12 py-4 text-sm font-source-code font-medium tracking-widest uppercase hover:bg-white hover:text-black transition-all duration-300">
               SABER MÁS
             </button>
           </div>
