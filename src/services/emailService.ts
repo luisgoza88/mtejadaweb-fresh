@@ -6,10 +6,10 @@
 // 4. Reemplazar estos valores con los tuyos
 
 export const sendEmail = async (formData: any) => {
-  // Configuración temporal - estos valores deben ser configurados
-  const SERVICE_ID = 'TU_SERVICE_ID'; // Reemplazar con tu Service ID de EmailJS
-  const TEMPLATE_ID = 'TU_TEMPLATE_ID'; // Reemplazar con tu Template ID de EmailJS
-  const PUBLIC_KEY = 'TU_PUBLIC_KEY'; // Reemplazar con tu Public Key de EmailJS
+  // Configuración de EmailJS - REEMPLAZA con tus valores reales
+  const SERVICE_ID = 'TU_SERVICE_ID'; // Ej: 'service_abc123'
+  const TEMPLATE_ID = 'TU_TEMPLATE_ID'; // Ej: 'template_xyz789'
+  const PUBLIC_KEY = 'TU_PUBLIC_KEY'; // Ej: 'user_AbC123XyZ'
   
   // Datos para enviar
   const templateParams = {
