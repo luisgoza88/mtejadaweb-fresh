@@ -9,6 +9,14 @@ function HomePage() {
   const [isVideoInView, setIsVideoInView] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
 
+  // Smooth scroll to section
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   // Projects data
   const projects = [
     {
@@ -167,7 +175,7 @@ function HomePage() {
   return (
     <div className="min-h-screen bg-white">
       {/* Fullscreen Hero Section */}
-      <section className="relative min-h-screen bg-cover bg-center bg-no-repeat" 
+      <section id="home" className="relative min-h-screen bg-cover bg-center bg-no-repeat" 
         style={{
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/intro-images/097-MSPH8735.jpg')`
         }}>
@@ -192,11 +200,11 @@ function HomePage() {
               
               {/* Navigation Menu */}
               <div className="hidden md:flex space-x-12 text-xs font-source-code font-medium tracking-widest text-white uppercase">
-                <a href="#" className="hover:opacity-50 transition-opacity duration-300">HOME</a>
-                <a href="#" className="hover:opacity-50 transition-opacity duration-300">PROYECTOS</a>
-                <a href="#" className="hover:opacity-50 transition-opacity duration-300">SERVICIOS</a>
-                <a href="#" className="hover:opacity-50 transition-opacity duration-300">ACERCA DE</a>
-                <a href="#" className="hover:opacity-50 transition-opacity duration-300">CONTACTO</a>
+                <a href="#home" onClick={(e) => { e.preventDefault(); scrollToSection('home'); }} className="hover:opacity-50 transition-opacity duration-300">HOME</a>
+                <a href="#proyectos" onClick={(e) => { e.preventDefault(); scrollToSection('proyectos'); }} className="hover:opacity-50 transition-opacity duration-300">PROYECTOS</a>
+                <a href="#servicios" onClick={(e) => { e.preventDefault(); scrollToSection('servicios'); }} className="hover:opacity-50 transition-opacity duration-300">SERVICIOS</a>
+                <a href="#about" onClick={(e) => { e.preventDefault(); scrollToSection('about'); }} className="hover:opacity-50 transition-opacity duration-300">ACERCA DE</a>
+                <a href="#contacto" onClick={(e) => { e.preventDefault(); scrollToSection('contacto'); }} className="hover:opacity-50 transition-opacity duration-300">CONTACTO</a>
               </div>
             </div>
           </div>
@@ -224,7 +232,7 @@ function HomePage() {
       </section>
 
       {/* Projects Section */}
-      <section className="py-16 overflow-hidden" style={{ backgroundColor: '#BCBCBC' }}>
+      <section id="proyectos" className="py-16 overflow-hidden" style={{ backgroundColor: '#BCBCBC' }}>
         <div className="max-w-full">
           <div className="px-4 md:px-8 mb-12">
             <div className="flex items-center">
@@ -359,7 +367,7 @@ function HomePage() {
       </section>
 
       {/* About Me Section - Sobre mí */}
-      <section className="bg-black">
+      <section id="about" className="bg-black">
         <div className="max-w-full">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 items-stretch" style={{ minHeight: '90vh' }}>
             {/* Video */}
@@ -404,21 +412,24 @@ function HomePage() {
             {/* Content */}
             <div className="bg-black px-8 lg:px-16 flex items-center" style={{ height: '90vh' }}>
               <div className="max-w-xl">
-                <h2 className="text-4xl md:text-5xl font-kanit font-light mb-12 text-white">
-                  Sobre mí
-                </h2>
+                <div className="mb-16">
+                  <h2 className="text-5xl md:text-6xl font-kanit font-light text-white mb-3">
+                    About Me
+                  </h2>
+                  <div className="w-24 h-1 bg-white opacity-60"></div>
+                </div>
                 
                 <div className="space-y-6 text-base md:text-lg font-dm-sans text-gray-300 leading-relaxed">
                   <p>
-                    Soy Mariana Tejada, arquitecta de la Universidad Pontificia Bolivariana. A mis 27 años, he dedicado mi carrera a crear espacios que trascienden lo convencional, fusionando elegancia contemporánea con funcionalidad excepcional.
+                    Soy Mariana Tejada, arquitecta de la Universidad Pontificia Bolivariana con especialización en Gestión de la Construcción de EAFIT. Una persona reservada pero auténtica, con una sensibilidad especial para reconocer la belleza en lo cotidiano y transformarla en experiencias espaciales.
                   </p>
                   
                   <p>
-                    Mi enfoque se centra en diseñar experiencias arquitectónicas que conectan profundamente con las personas. Desde restaurantes familiares que honran tradiciones hasta espacios de bienestar que abrazan la naturaleza, cada proyecto refleja una búsqueda constante de equilibrio entre estética y propósito.
+                    Mi enfoque se centra en proyectos residenciales y comerciales que conectan el espacio con un estilo de vida o con la identidad de una marca. Busco crear atmósferas que logren un balance entre lo funcional y lo emocional, explorando la simplicidad con intención y estableciendo un diálogo entre lo natural, lo noble y lo sofisticado.
                   </p>
                   
                   <p>
-                    Creo en una arquitectura que respira, que dialoga con su entorno y que eleva la experiencia humana. Mi trabajo se distingue por líneas limpias, materiales honestos y una sensibilidad especial hacia la luz y el espacio, creando ambientes que no solo se habitan, sino que se viven y se sienten.
+                    Creo en una arquitectura que respira, que dialoga con su entorno y que eleva la experiencia humana. La pureza de las líneas, la honestidad de los materiales y una sensibilidad especial hacia la luz y el espacio definen cada creación, generando ambientes que no solo se habitan, sino que se viven y se sienten.
                   </p>
 
                   <p className="text-white font-medium">
@@ -432,42 +443,56 @@ function HomePage() {
       </section>
 
       {/* About Section - Diseñamos espacios */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Image */}
-            <div className="order-2 lg:order-1">
-              <div className="relative rounded-2xl overflow-hidden shadow-xl">
+      <section id="contacto" className="relative py-20" style={{ backgroundColor: '#BCBCBC' }}>
+        <div className="max-w-full px-4 md:px-8 lg:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Left Content */}
+            <div className="flex flex-col justify-between h-full">
+              {/* Header and Text */}
+              <div className="mb-12 lg:mb-0">
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-kanit font-light mb-8 text-black leading-none">
+                  Diseñamos espacios,<br/>
+                  creamos<br/>
+                  historias
+                </h2>
+                
+                <p className="text-base md:text-lg font-dm-sans text-gray-700 leading-relaxed max-w-xl mb-8">
+                  Diseñamos con intención, mezclando forma, función y alma. Nuestro propósito es diseñar espacios que trascienden lo estético: lugares que se conectan con el entorno y permiten elevar la experiencia de quienes lo habitan.
+                </p>
+
+                {/* Button below text */}
+                <Link to="/consulta" className="inline-flex items-center bg-black text-white px-8 py-4 text-sm font-source-code font-medium tracking-widest uppercase hover:bg-gray-800 transition-all duration-300 rounded-full">
+                  RESERVAR CONSULTA
+                </Link>
+              </div>
+
+              {/* Bottom Image - Sphere */}
+              <div className="mt-12">
                 <img 
-                  src="https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/intro-images/CONSULTA/RENDERS%20HEALING%20FOREST%20(11).jpg"
-                  alt="Diseño arquitectónico 3D"
-                  className="w-full h-[500px] object-cover"
+                  src="https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/intro-images/Captura%20de%20pantalla%202025-09-15%20a%20la(s)%209.42.10%20p.m..png"
+                  alt="Esfera arquitectónica"
+                  className="w-full max-w-2xl h-auto"
                 />
               </div>
             </div>
 
-            {/* Content */}
-            <div className="order-1 lg:order-2 lg:pl-12">
-              <h2 className="text-4xl md:text-5xl font-kanit font-light mb-8 text-black leading-tight">
-                Diseñamos espacios,<br/>
-                creamos<br/>
-                historias
-              </h2>
-              
-              <p className="text-base md:text-lg font-dm-sans text-gray-600 leading-relaxed mb-10">
-                Diseñamos con intención, mezclando forma, función y alma. Nuestro propósito es diseñar espacios que trascienden lo estético: lugares que se conectan con el entorno y permiten elevar la experiencia de quienes lo habitan.
-              </p>
-
-              <Link to="/consulta" className="inline-flex items-center bg-black text-white px-8 py-4 text-sm font-source-code font-medium tracking-widest uppercase hover:bg-gray-800 transition-all duration-300 rounded-full">
-                RESERVAR CONSULTA
-              </Link>
+            {/* Right Content */}
+            <div className="relative h-full min-h-[600px] lg:min-h-[800px]">
+              {/* Chair Image - positioned higher and to the right */}
+              <div className="absolute inset-0 flex items-start justify-end pr-4 pt-0">
+                <img 
+                  src="https://ehhvwmzxcjyupjdonkvl.supabase.co/storage/v1/object/public/intro-images/Captura%20de%20pantalla%202025-09-15%20a%20la(s)%209.42.00%20p.m..png"
+                  alt="Silla de diseño"
+                  className="w-3/4 h-auto max-h-[704px] object-contain"
+                />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Services Section */}
-      <section className="py-16 bg-white">
+      <section id="servicios" className="py-16" style={{ backgroundColor: '#BCBCBC' }}>
         <div className="max-w-full px-4 md:px-8">
           <div className="text-left mb-12">
             <div className="flex items-center">
@@ -491,65 +516,35 @@ function HomePage() {
             </div>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Arquitectura */}
-            <div className="group">
-              <div className="relative overflow-hidden aspect-square bg-gray-100 mb-6">
-                <img 
-                  src="https://images.unsplash.com/photo-1600607687644-c7171b42498b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Arquitectura"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
-              </div>
-              <div>
-                <h3 className="text-xl md:text-2xl font-kanit font-medium tracking-wide mb-3 text-black">
-                  Arquitectura
-                </h3>
-                <p className="text-sm md:text-base font-dm-sans text-gray-600 leading-relaxed">
-                  Diseño arquitectónico integral desde la conceptualización hasta la construcción. Creamos espacios que combinan funcionalidad, estética y sostenibilidad.
-                </p>
-              </div>
+            <div>
+              <h3 className="text-xl md:text-2xl font-kanit font-medium tracking-wide mb-3 text-black">
+                Arquitectura
+              </h3>
+              <p className="text-sm md:text-base font-dm-sans text-gray-700 leading-relaxed">
+                Diseño arquitectónico integral desde la conceptualización hasta la construcción. Creamos espacios que combinan funcionalidad, estética y sostenibilidad.
+              </p>
             </div>
 
             {/* Diseño Interior */}
-            <div className="group">
-              <div className="relative overflow-hidden aspect-square bg-gray-100 mb-6">
-                <img 
-                  src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Diseño Interior"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
-              </div>
-              <div>
-                <h3 className="text-xl md:text-2xl font-kanit font-medium tracking-wide mb-3 text-black">
-                  Diseño Interior
-                </h3>
-                <p className="text-sm md:text-base font-dm-sans text-gray-600 leading-relaxed">
-                  Espacios interiores que reflejan personalidad y funcionalidad. Transformamos ambientes en experiencias únicas y memorables.
-                </p>
-              </div>
+            <div>
+              <h3 className="text-xl md:text-2xl font-kanit font-medium tracking-wide mb-3 text-black">
+                Diseño Interior
+              </h3>
+              <p className="text-sm md:text-base font-dm-sans text-gray-700 leading-relaxed">
+                Espacios interiores que reflejan personalidad y funcionalidad. Transformamos ambientes en experiencias únicas y memorables.
+              </p>
             </div>
 
             {/* Consultoría */}
-            <div className="group">
-              <div className="relative overflow-hidden aspect-square bg-gray-100 mb-6">
-                <img 
-                  src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                  alt="Consultoría"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300"></div>
-              </div>
-              <div>
-                <h3 className="text-xl md:text-2xl font-kanit font-medium tracking-wide mb-3 text-black">
-                  Consultoría
-                </h3>
-                <p className="text-sm md:text-base font-dm-sans text-gray-600 leading-relaxed">
-                  Asesoramiento especializado en proyectos arquitectónicos y de diseño. Guiamos cada etapa de tu proyecto hacia el éxito.
-                </p>
-              </div>
+            <div>
+              <h3 className="text-xl md:text-2xl font-kanit font-medium tracking-wide mb-3 text-black">
+                Consultoría
+              </h3>
+              <p className="text-sm md:text-base font-dm-sans text-gray-700 leading-relaxed">
+                Consultoría en arquitectura, diseño y estructuración de proyectos. Asesoramiento en gestión de la construcción.
+              </p>
             </div>
           </div>
         </div>
