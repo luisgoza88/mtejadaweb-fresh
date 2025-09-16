@@ -160,7 +160,7 @@ function HomePage() {
             </h2>
           </div>
           
-          <div className="relative">
+          <div className="relative mx-auto" style={{ maxWidth: '85%' }}>
             {/* Navigation Areas - Hover to Navigate */}
             <div 
               onMouseEnter={prevSlide}
